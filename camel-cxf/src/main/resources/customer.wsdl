@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="customer.wsdl"
+                  targetNamespace="http://www.cognitivenode.com/customer"
+                  xmlns:tns="http://www.cognitivenode.com/customer"
+                  xmlns:typ="http://www.cognitivenode.com/customer/types"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <wsdl:types>
+        <xsd:schema
+                xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                targetNamespace="http://www.cognitivenode.com/customer/types"
+                xmlns:tns="http://www.cognitivenode.com/customer/types">
+            <xsd:complexType name="Address">
+                <xsd:sequence>
+                    <xsd:element name="AddressLine1">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:length value="255"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="AddressLine2">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:length value="255"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="PostCode">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:pattern value="[a-zA-Z0-9]{4} [a-zA-Z0-9]{3}"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="CreditCard">
+                <xsd:all>
+                    <xsd:element name="CardHolderName">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:length value="255"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="CardNumber">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:pattern value="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="CVC">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:length value="3"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="ExpiryDate" type="xsd:date"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="Identifier">
+                <xsd:sequence>
+                    <xsd:element name="Username">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:length value="255"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="CustomerRecord">
+                <xsd:sequence>
+                    <xsd:element name="FirstName">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:length value="25"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="LastName">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:length value="25"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="DOB" type="xsd:date"/>
+                    <xsd:element name="Gender">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:pattern value="M|F|m|f"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="Username">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:length value="255"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="Password">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:length value="255"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="Phone">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:length value="10"/>
+                                <xsd:pattern value="[0-9]"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="BillingAddress" type="tns:Address"/>
+                    <xsd:element name="ShippingAddress" type="tns:Address" minOccurs="1" maxOccurs="unbounded"/>
+                    <xsd:element name="CreditCard" type="tns:CreditCard"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfCustomerRecord">
+                <xsd:sequence>
+                    <xsd:element name="customer" type="tns:CustomerRecord" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="CustomerResponseType">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="customer" type="tns:CustomerRecord"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CustomerRequestType">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="CustomerId" type="tns:Identifier"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="GetCustomerByLastNameType">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="LastName" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CustomersResponseType">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="customers" type="tns:ArrayOfCustomerRecord"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="EmptyType" type="xsd:string" default="Ignore me"/>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="GetCustomerResponse">
+        <wsdl:part name="parameters" element="typ:CustomerResponseType"/>
+    </wsdl:message>
+    <wsdl:message name="GetCustomerRequest">
+        <wsdl:part name="parameters" element="typ:CustomerRequestType"/>
+    </wsdl:message>
+    <wsdl:message name="GetCustomerByLastNameResponse">
+        <wsdl:part name="parameters" element="typ:CustomerResponseType"/>
+    </wsdl:message>
+    <wsdl:message name="GetCustomerByLastNameRequest">
+        <wsdl:part name="parameters" element="typ:GetCustomerByLastNameType"/>
+    </wsdl:message>
+    <wsdl:message name="GetCustomersResponse">
+        <wsdl:part name="parameters" element="typ:CustomersResponseType"/>
+    </wsdl:message>
+    <wsdl:message name="GetCustomersRequest">
+        <wsdl:part name="IGNORE_ME" element="typ:EmptyType"/>
+    </wsdl:message>
+
+    <!-- Name this something sensible as it would be used to generate Service Endpoint Interface -->
+    <wsdl:portType name="ICustomerService">
+        <wsdl:operation name="GetCustomer">
+            <wsdl:input message="tns:GetCustomerRequest"/>
+            <wsdl:output message="tns:GetCustomerResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetCustomerByLastName">
+            <wsdl:input message="tns:GetCustomerByLastNameRequest"/>
+            <wsdl:output message="tns:GetCustomerByLastNameResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetCustomers">
+            <wsdl:input message="tns:GetCustomersRequest"/>
+            <wsdl:output message="tns:GetCustomersResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="CustomerBinding" type="tns:ICustomerService">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetCustomer">
+            <soap:operation soapAction="http://www.cognitivenode.com/customer/GetCustomer" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetCustomerByLastName">
+            <soap:operation soapAction="http://www.cognitivenode.com/customer/GetCustomerByLastName" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetCustomers">
+            <soap:operation soapAction="http://www.cognitivenode.com/customer/GetCustomers" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <!-- This name could be controlled at implementation annotation @WebService -->
+    <wsdl:service name="CustomerService">
+        <wsdl:documentation>This service is responsible for everything to do with customer</wsdl:documentation>
+        <!-- This name could be controlled at implementation class annotation @WebService -->
+        <wsdl:port name="CustomerServicePort" binding="tns:CustomerBinding">
+            <soap:address location="http://localhost:22012/customer"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

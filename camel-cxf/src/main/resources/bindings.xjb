@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <!-- Error on global binding is underlying Xerces validator issue not intellij
+        http://youtrack.jetbrains.net/issue/IDEA-24870
+    -->
+    <globalBindings>
+        <!-- This mappings map from XMLGeorgianCalendar to java Date -->
+        <javaType name="java.util.Calendar" xmlType="xs:date"
+                  parseMethod="javax.xml.bind.DatatypeConverter.parseDate"
+                  printMethod="javax.xml.bind.DatatypeConverter.printDate"/>
+    </globalBindings>
+</bindings>
