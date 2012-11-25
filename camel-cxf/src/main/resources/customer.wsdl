@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="wsdl-viewer.xsl"?>
 <wsdl:definitions name="customer.wsdl"
                   targetNamespace="http://www.cognitivenode.com/customer"
                   xmlns:tns="http://www.cognitivenode.com/customer"
                   xmlns:typ="http://www.cognitivenode.com/customer/types"
                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
                   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl">
 
     <wsdl:types>
         <xsd:schema
-                xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                 targetNamespace="http://www.cognitivenode.com/customer/types"
-                xmlns:tns="http://www.cognitivenode.com/customer/types">
+                xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:tns="http://www.cognitivenode.com/customer/types"
+                elementFormDefault="qualified">
             <xsd:complexType name="Address">
                 <xsd:sequence>
                     <xsd:element name="AddressLine1">
@@ -63,17 +66,8 @@
                     <xsd:element name="ExpiryDate" type="xsd:date"/>
                 </xsd:all>
             </xsd:complexType>
-            <xsd:complexType name="Identifier">
-                <xsd:sequence>
-                    <xsd:element name="Username">
-                        <xsd:simpleType>
-                            <xsd:restriction base="xsd:string">
-                                <xsd:length value="255"/>
-                            </xsd:restriction>
-                        </xsd:simpleType>
-                    </xsd:element>
-                </xsd:sequence>
-            </xsd:complexType>
+
+            <!-- Grouping -->
             <xsd:complexType name="CustomerRecord">
                 <xsd:sequence>
                     <xsd:element name="FirstName">
@@ -127,73 +121,124 @@
             </xsd:complexType>
             <xsd:complexType name="ArrayOfCustomerRecord">
                 <xsd:sequence>
-                    <xsd:element name="customer" type="tns:CustomerRecord" minOccurs="0" maxOccurs="unbounded"/>
+                    <xsd:element name="customers" type="tns:CustomerRecord" minOccurs="0" maxOccurs="unbounded"/>
                 </xsd:sequence>
             </xsd:complexType>
-            <xsd:element name="CustomerResponseType">
+            <!-- End of grouping-->
+
+            <!-- Method requests name them identical to operation name -->
+            <xsd:element name="GetCustomer">
+                <!-- Define method parameters -->
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Username">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:length value="255"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+                <!-- End of method parameters -->
+            </xsd:element>
+            <xsd:element name="GetCustomers">
+                <!-- Define method parameters -->
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="IgnoreMe">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:length value="255"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+                <!-- End of method parameters -->
+            </xsd:element>
+            <xsd:element name="GetCustomerByLastName">
+                <!-- Define method parameters -->
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="LastName">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:length value="255"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+                <!-- End of method parameters -->
+            </xsd:element>
+            <!-- End of method requests -->
+
+            <!-- Method response -->
+            <xsd:element name="GetCustomerResponse">
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element name="customer" type="tns:CustomerRecord"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="CustomerRequestType">
+            <xsd:element name="GetCustomerByLastNameResponse">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="CustomerId" type="tns:Identifier"/>
+                        <xsd:element name="customer" type="tns:CustomerRecord"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="GetCustomerByLastNameType">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="LastName" type="xsd:string"/>
-                    </xsd:sequence>
-                </xsd:complexType>
-            </xsd:element>
-            <xsd:element name="CustomersResponseType">
+
+            <xsd:element name="GetCustomersResponse">
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element name="customers" type="tns:ArrayOfCustomerRecord"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="EmptyType" type="xsd:string" default="Ignore me"/>
+            <!-- End of method response -->
         </xsd:schema>
     </wsdl:types>
 
-    <wsdl:message name="GetCustomerResponse">
-        <wsdl:part name="parameters" element="typ:CustomerResponseType"/>
+    <wsdl:message name="GetCustomer_InputMessage">
+        <wsdl:part name="parameters" element="typ:GetCustomer"/>
     </wsdl:message>
-    <wsdl:message name="GetCustomerRequest">
-        <wsdl:part name="parameters" element="typ:CustomerRequestType"/>
+    <wsdl:message name="GetCustomer_OutputMessage">
+        <wsdl:part name="parameters" element="typ:GetCustomerResponse"/>
     </wsdl:message>
-    <wsdl:message name="GetCustomerByLastNameResponse">
-        <wsdl:part name="parameters" element="typ:CustomerResponseType"/>
+    <wsdl:message name="GetCustomerByLastName_InputMessage">
+        <wsdl:part name="parameters" element="typ:GetCustomerByLastName"/>
     </wsdl:message>
-    <wsdl:message name="GetCustomerByLastNameRequest">
-        <wsdl:part name="parameters" element="typ:GetCustomerByLastNameType"/>
+    <wsdl:message name="GetCustomerByLastName_OutputMessage">
+        <wsdl:part name="parameters" element="typ:GetCustomerByLastNameResponse"/>
     </wsdl:message>
-    <wsdl:message name="GetCustomersResponse">
-        <wsdl:part name="parameters" element="typ:CustomersResponseType"/>
+    <wsdl:message name="GetCustomers_InputMessage">
+        <wsdl:part name="parameters" element="typ:GetCustomers"/>
     </wsdl:message>
-    <wsdl:message name="GetCustomersRequest">
-        <wsdl:part name="IGNORE_ME" element="typ:EmptyType"/>
+    <wsdl:message name="GetCustomers_OutputMessage">
+        <wsdl:part name="parameters" element="typ:GetCustomersResponse"/>
     </wsdl:message>
 
     <!-- Name this something sensible as it would be used to generate Service Endpoint Interface -->
     <wsdl:portType name="ICustomerService">
         <wsdl:operation name="GetCustomer">
-            <wsdl:input message="tns:GetCustomerRequest"/>
-            <wsdl:output message="tns:GetCustomerResponse"/>
+            <wsdl:input message="tns:GetCustomer_InputMessage"
+                        wsaw:Action="http://www.cognitivenode.com/customer/GetCustomer"/>
+            <wsdl:output message="tns:GetCustomer_OutputMessage"
+                         wsaw:Action="http://www.cognitivenode.com/customer/GetCustomerResponse"/>
         </wsdl:operation>
         <wsdl:operation name="GetCustomerByLastName">
-            <wsdl:input message="tns:GetCustomerByLastNameRequest"/>
-            <wsdl:output message="tns:GetCustomerByLastNameResponse"/>
+            <wsdl:input message="tns:GetCustomerByLastName_InputMessage"
+                        wsaw:Action="http://www.cognitivenode.com/customer/GetCustomerByLastName"/>
+            <wsdl:output message="tns:GetCustomerByLastName_OutputMessage"
+                         wsaw:Action="http://www.cognitivenode.com/customer/GetCustomerByLastNameResponse"/>
         </wsdl:operation>
         <wsdl:operation name="GetCustomers">
-            <wsdl:input message="tns:GetCustomersRequest"/>
-            <wsdl:output message="tns:GetCustomersResponse"/>
+            <wsdl:input message="tns:GetCustomers_InputMessage"
+                        wsaw:Action="http://www.cognitivenode.com/customer/GetCustomers"/>
+            <wsdl:output message="tns:GetCustomers_OutputMessage"
+                         wsaw:Action="http://www.cognitivenode.com/customer/GetCustomersResponse"/>
         </wsdl:operation>
     </wsdl:portType>
 

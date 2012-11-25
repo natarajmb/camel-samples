@@ -1,4 +1,4 @@
-package com.cognitivenode;
+package com.cognitivenode.consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +19,6 @@ public class RunService {
         // Below line of code, reads the spring context file and along with starts the
         // Camel context and its endpoints.
         logger.info("Starting Spring-Camel Integration...");
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-consumer-context.xml");
     }
 }

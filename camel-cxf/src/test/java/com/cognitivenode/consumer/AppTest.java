@@ -1,4 +1,4 @@
-package com.cognitivenode;
+package com.cognitivenode.consumer;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

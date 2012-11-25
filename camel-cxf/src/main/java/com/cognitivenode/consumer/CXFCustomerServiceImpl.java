@@ -1,4 +1,4 @@
-package com.cognitivenode;
+package com.cognitivenode.consumer;
 
 import com.cognitivenode.customer.ICustomerService;
 import com.cognitivenode.customer.types.*;
@@ -58,23 +58,18 @@ public class CXFCustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public CustomersResponseType getCustomers(@WebParam(partName = "parameters", name = "EmptyType", targetNamespace = "http://www.cognitivenode.com/customer/types") String IGNORE_ME) {
+    public ArrayOfCustomerRecord getCustomers(@WebParam(name = "IgnoreMe", targetNamespace = "http://www.cognitivenode.com/customer/types") String ignoreMe) {
         ArrayOfCustomerRecord aocr = new ArrayOfCustomerRecord();
-        aocr.getCustomer().addAll(customerRecords);
-        CustomersResponseType responseType = new CustomersResponseType();
-        responseType.setCustomers(aocr);
-        return responseType;
+        aocr.getCustomers().addAll(customerRecords);
+        return aocr;
     }
 
     @Override
-    public CustomerResponseType getCustomer(@WebParam(partName = "parameters", name = "CustomerRequestType", targetNamespace = "http://www.cognitivenode.com/customer/types") CustomerRequestType parameters) {
-        if (parameters != null) {
-            Identifier identifier = parameters.getCustomerId();
+    public CustomerRecord getCustomer(@WebParam(name = "Username", targetNamespace = "http://www.cognitivenode.com/customer/types") String username) {
+        if (username != null) {
             for (CustomerRecord record : customerRecords) {
-                if (record.getUsername().equals(identifier.getUsername())) {
-                    CustomerResponseType responseType = new CustomerResponseType();
-                    responseType.setCustomer(record);
-                    return responseType;
+                if (record.getUsername().equals(username)) {
+                    return record;
                 }
             }
         }
@@ -82,14 +77,11 @@ public class CXFCustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public CustomerResponseType getCustomerByLastName(@WebParam(partName = "parameters", name = "GetCustomerByLastNameType", targetNamespace = "http://www.cognitivenode.com/customer/types") GetCustomerByLastNameType parameters) {
-        if (parameters != null) {
-            String lastName = parameters.getLastName();
+    public CustomerRecord getCustomerByLastName(@WebParam(name = "LastName", targetNamespace = "http://www.cognitivenode.com/customer/types") String lastName) {
+        if (lastName != null) {
             for (CustomerRecord record : customerRecords) {
                 if (record.getLastName().equals(lastName)) {
-                    CustomerResponseType responseType = new CustomerResponseType();
-                    responseType.setCustomer(record);
-                    return responseType;
+                    return record;
                 }
             }
         }

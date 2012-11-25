@@ -8,16 +8,22 @@
         http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
 
 
-    <!-- We are defining a Service below which external clients can access. But this is know
-         as "CONSUMER" in camel.
+    <!-- We are defining a Proxy service below which connects to an external service. This endpoint provides an virtual
+         proxy object which the calling client could utilise for making calls. This is also known as "PRODUCER" in
+         camel.
     -->
-    <cxf:cxfEndpoint id="customerServiceEndpoint" address="http://0.0.0.0:12912/Customer"
+    <cxf:cxfEndpoint id="customerProxyServiceEndpoint" address="http://localhost:12912/Customer"
                      serviceClass="com.cognitivenode.customer.ICustomerService"
                      endpointName="s:CustomerServicePort"
+                     wsdlURL="http://localhost:12912/Customer?wsdl"
                      serviceName="s:CustomerService"
-                     xmlns:s="http://www.cognitivenode.com/customer"/>
-
-    <bean id="customerServiceImpl" class="com.cognitivenode.CXFCustomerServiceImpl"/>
+                     xmlns:s="http://www.cognitivenode.com/customer">
+        <cxf:properties>
+            <entry key="dataFormat" value="POJO"/>
+            <entry key="wrapped" value="true"/>
+            <entry key="defaultOperationNameSpace" value="http://www.cognitivenode.com/customer/types"/>
+        </cxf:properties>
+    </cxf:cxfEndpoint>
 
     <!-- When spring process the below piece of code it automatically starts up all the routes
          defined with in the context. There is a alternative way of doing this by defining
@@ -26,8 +32,10 @@
     -->
     <camel:camelContext id="camel">
         <camel:route>
-            <camel:from uri="cxf:bean:customerServiceEndpoint"/>
-            <camel:to uri="bean:customerServiceImpl"/>
+            <!-- 'callCSProxy' string is used an identifier with in the code -->
+            <camel:from uri="direct:callCSProxy"/>
+            <camel:setExchangePattern pattern="InOut"/>
+            <camel:to uri="cxf:bean:customerProxyServiceEndpoint"/>
         </camel:route>
     </camel:camelContext>
 
