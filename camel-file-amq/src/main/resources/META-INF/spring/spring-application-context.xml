@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+        http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+
+    <bean id="csvFileSplitter" class="com.cognitivenode.processor.CSVFileSplitter">
+        <property name="splitFileDir" value="/Users/natarajmb/Temp/Processing/"/>
+        <property name="maxLines" value="1024"/>
+    </bean>
+    <bean id="csvFileProcessor" class="com.cognitivenode.processor.CSVFileProcessor"/>
+    <bean id="productBeanProcessor" class="com.cognitivenode.processor.ProductBeanProcessor">
+        <property name="connectionFactory" ref="pooledConnectionFactory"/>
+    </bean>
+
+    <!-- Configuration of ActiveMQ -->
+    <bean id="jmsConnectionFactory"
+          class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:27480"/>
+    </bean>
+
+    <bean id="pooledConnectionFactory"
+          class="org.apache.activemq.pool.PooledConnectionFactory" init-method="start" destroy-method="stop">
+        <property name="maxConnections" value="8"/>
+        <property name="connectionFactory" ref="jmsConnectionFactory"/>
+    </bean>
+
+    <bean id="jmsConfig"
+          class="org.apache.camel.component.jms.JmsConfiguration">
+        <property name="connectionFactory" ref="pooledConnectionFactory"/>
+        <property name="concurrentConsumers" value="10"/>
+    </bean>
+
+    <bean id="activemq"
+          class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="configuration" ref="jmsConfig"/>
+    </bean>
+    <!-- End ActiveMQ -->
+
+    <!-- Spring JMS Template -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory">
+            <ref local="pooledConnectionFactory"/>
+        </property>
+    </bean>
+
+    <!-- When spring processes the below piece of code it automatically starts up all the routes
+         defined with in the context. There is a alternative way of doing this by defining
+         the camel bean and invoking it and starting it manually. Read the starter guide to get
+         grips - http://camel.apache.org/getting-started.html
+    -->
+    <camel:camelContext id="camel">
+        <!-- Define a file reader endpoint to read a file-->
+        <camel:endpoint id="fileEndpoint" uri="file:/Users/natarajmb/Temp?recursive=false&amp;fileName=PRODUCTS.CSV"/>
+        <camel:endpoint id="productQueue" uri="activemq:queue:products?jmsMessageType=Object"/>
+
+        <camel:route>
+            <!-- Reference a file endpoint to read the file from-->
+            <camel:from ref="fileEndpoint"/>
+            <camel:split>
+                <!-- Split the read file into multiple chunks -->
+                <camel:method ref="csvFileSplitter" method="splitFile"/>
+                <camel:split>
+                    <!-- Convert each line of CSV data into product bean i.e. split into list of beans -->
+                    <camel:method ref="csvFileProcessor" method="convertToProductBean"/>
+                    <!-- Final end point -->
+                    <camel:to ref="productQueue"/>
+                </camel:split>
+            </camel:split>
+        </camel:route>
+    </camel:camelContext>
+
+</beans>

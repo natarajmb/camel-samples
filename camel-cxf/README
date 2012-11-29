@@ -22,7 +22,6 @@ Step2:
 Use SoapUI to do the tests for the API (http://www.soapui.org/)
 Note: Look at spring-consumer-context.xml to get the port
 
-
 You can run and test the example in Producer package as follows:
 Step1:
 Same as Step1 in Consumer example

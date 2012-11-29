@@ -7,6 +7,9 @@
     <version>1.0</version>
     <modules>
         <module>camel-cxf</module>
+        <module>camel-file-amq</module>
+        <module>camel-vm-smtp</module>
+        <module>camel-ssh</module>
     </modules>
     <packaging>pom</packaging>
 

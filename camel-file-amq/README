@@ -1,0 +1,24 @@
+This sample demonstrates how to read a csv file from the filesystem and transform it to JMS message.
+
+To run the sample, check the file endpoint settings in spring-application-context.xml
+
+Step1:
+Copy the file PRODUCTS.CSV from /src/main/resources folder into the updated file endpoint folder.
+Make sure you have ActiveMQ service started on port 27480. Copy files under /resource/activemq/ to
+conf folder of ActiveMQ before starting.
+
+Step2:
+mvn camel:run
+
+or to debug use following command
+
+mvn clean compile exec:exec -Dexec.executable="java" -Dexec.args="-classpath %classpath -Xdebug
+                -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000 org.apache.camel.spring.Main"
+
+To run the program. This sample uses a camel-maven-plugin which runs a bootstrap class in background and runs starts
+the routes defined in provided context xml file.
+
+
+Addition Steps:
+If you want to see the full message on ActiveMQ console copy the camel-file-amq.jar file into
+<ActiveMQ_Install_Folder>/lib and restart.
