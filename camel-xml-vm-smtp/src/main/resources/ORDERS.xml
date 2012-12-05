@@ -1,0 +1,40 @@
+<order contactId="6" contactName="Cognitivenode" deliveryType="24HOUR" hybrisAccountNumber="00232345"
+       hybrisOrderNumber="13435065484354" orderDate="2012-11-29T21:24:05.009Z" orderValueExVat="116.830"
+       orderValueIncVat="140.19" salesOfficeCode="WEB" uniqueSerialNumber="uk00307855" numberNIFNIECIF=""
+       deliveryCost="0.0">
+    <address addressLine1="15 Betahouse" addressLine2="Southcote Road" addressLine3="Reading" countryCode="uk"
+             name="Nataraj Basappa" postcode="RG30 2AR"/>
+    <orderLines>
+        <orderLine SKU="CC932" productName="Soft Dustpan &amp; Brush Set" apportionedPrice="1.99" lineNumber="0" orderLineValueExVat="3.98"
+                   orderLineVatValue="0.80" priceListCode="STD" quantity="2" unit="piece"/>
+        <orderLine SKU="DN836" productName="Jantex Sweeper Mop Sleeve" apportionedPrice="5.99" lineNumber="1" orderLineValueExVat="5.99"
+                   orderLineVatValue="1.20" priceListCode="STD" quantity="1" unit="piece"/>
+        <orderLine SKU="L884" productName="Kentucky Mop Head" apportionedPrice="3.99" lineNumber="2" orderLineValueExVat="7.98" orderLineVatValue="1.60"
+                   priceListCode="STD" quantity="2" unit="piece"/>
+        <orderLine SKU="L348" productName="Colour Coded Interchangeable Handle - Blue" apportionedPrice="7.99" lineNumber="3" orderLineValueExVat="7.99" orderLineVatValue="1.60"
+                   priceListCode="STD" quantity="1" unit="piece"/>
+        <orderLine SKU="DN844" productName="Antibacterial All Purpose Cloth" apportionedPrice="7.99" lineNumber="4" orderLineValueExVat="7.99"
+                   orderLineVatValue="1.60" priceListCode="STD" quantity="1" unit="piece"/>
+        <orderLine SKU="DL919" productName="Jantex Jumbo Roll" apportionedPrice="10.99" lineNumber="5" orderLineValueExVat="10.99"
+                   orderLineVatValue="2.20" priceListCode="STD" quantity="1" unit="piece"/>
+        <orderLine SKU="L885" productName="Kentucky Mop Head" apportionedPrice="3.99" lineNumber="6" orderLineValueExVat="7.98" orderLineVatValue="1.60"
+                   priceListCode="STD" quantity="2" unit="piece"/>
+        <orderLine SKU="CD502" productName="Colour Coded Twin Mop Buckets" apportionedPrice="9.99" lineNumber="7" orderLineValueExVat="9.99"
+                   orderLineVatValue="2.00" priceListCode="STD" quantity="1" unit="piece"/>
+        <orderLine SKU="CD504" productName="Colour Coded Twin Mop Buckets" apportionedPrice="9.99" lineNumber="8" orderLineValueExVat="9.99"
+                   orderLineVatValue="2.00" priceListCode="STD" quantity="1" unit="piece"/>
+        <orderLine SKU="L347" productName="Colour Coded Interchangeable Handle - Red" apportionedPrice="7.99" lineNumber="9" orderLineValueExVat="7.99" orderLineVatValue="1.60"
+                   priceListCode="STD" quantity="1" unit="piece"/>
+        <orderLine SKU="DL921" productName="Jantex Centre Feed Roll" apportionedPrice="9.99" lineNumber="10" orderLineValueExVat="9.99"
+                   orderLineVatValue="2.00" priceListCode="STD" quantity="1" unit="piece"/>
+        <orderLine SKU="DN838" productName="Jantex Sweeper Mop Frame" apportionedPrice="5.99" lineNumber="11" orderLineValueExVat="5.99"
+                   orderLineVatValue="1.20" priceListCode="STD" quantity="1" unit="piece"/>
+        <orderLine SKU="DL923" productName="Jantex Green Z Fold Hand Towels" apportionedPrice="14.99" lineNumber="12" orderLineValueExVat="14.99"
+                   orderLineVatValue="3.00" priceListCode="STD" quantity="1" unit="piece"/>
+        <orderLine SKU="M897" productName="Quality Refuse Sacks" apportionedPrice="4.99" lineNumber="13" orderLineValueExVat="4.99"
+                   orderLineVatValue="1.00" priceListCode="WEB" quantity="1" unit="piece"/>
+    </orderLines>
+    <payment paymentType="Paid by card" cardChargeAmount="140.19" cardCvvAvv="+t6cbOLJf8kagI=" cardType="visa"
+             addressLine1="15 Betahouse Soutcote Road" addressLine2="Southcote Road" addressLine3="Reading"
+             countryCode="uk" postcode="RG30 2AR"/>
+</order>

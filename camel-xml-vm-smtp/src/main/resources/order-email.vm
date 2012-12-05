@@ -1,0 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+</head>
+<body style="width: 1024px;height: auto;">
+<table bgColor="#cedff0; cellpadding=10; cellspacing=0; width=100%">
+<tr>
+<td>
+<table align="center" bgcolor="#ffffff" border="0" cellpadding="10" cellspacing="0" width="600">
+<tr>
+<td>
+<h1 style="font-family:'Arial','sans-serif';font-size:20px;color: #000065;">
+    Order Confirmation</h1>
+
+<p style="font-family:'Arial','sans-serif';font-size:12px;color:#333333;line-height:1.2em">
+    Dear $body.orderBean.addressBean.name,<br>
+    <br></p>
+
+<p style="font-family:'Arial','sans-serif';font-size:12px;color:#333333;line-height:1.2em">
+    Thank you for placing your order. Please find the details of your order below.
+    <br>
+    Web reference number: <b>$body.orderBean.hybrisOrderNumber</b>
+    <br>
+    #if($body.orderBean.orderDate)
+        Date Order Placed: $body.DateFormatUtils.format($body.orderBean.orderDate, $body.dateFormat)
+        <br>
+    #end
+</p>
+
+<table width="100%" style="border: 1px solid #cedff0;" cellpadding="5" cellspacing="0" border="0">
+    <tr>
+        <th bgColor="#E2E8E8" align="left"
+            style="border-bottom:1px solid #cedff0;border-right: 1px solid #cedff0;">
+                                     <span style="font-family:'Arial','sans-serif';font-size:12px;color:#000065;line-height: 1.2em;font-weight:bold;">
+                                         Delivery Address:
+                                     </span><br>
+        </th>
+        <th bgColor="#E2E8E8" align="left" style="border-bottom:1px solid #cedff0;">
+                                <span style="font-family:'Arial','sans-serif';font-size:12px;color:#000065;line-height: 1.2em;font-weight:bold;">
+                                    Payment Method:
+                                </span><br>
+        </th>
+    </tr>
+    <tr>
+        <td style="font-family:'Arial','sans-serif'; font-size: 12px; color: #333333;border-right: 1px solid #cedff0;"
+            valign="top">
+            $body.orderBean.addressBean.name<br>
+            $body.orderBean.addressBean.addressLine1<br>
+            #if ($body.orderBean.addressBean.addressLine2)
+                $body.orderBean.addressBean.addressLine2<br>
+            #end
+            #if ($body.orderBean.addressBean.addressLine3)
+                $body.orderBean.addressBean.addressLine3<br>
+            #end
+            #if ($body.orderBean.addressBean.countyCode)
+                $body.orderBean.addressBean.countyCode
+            #end
+            #if ($body.orderBean.addressBean.postcode)
+                $body.orderBean.addressBean.postcode
+            #end
+        </td>
+        <td valign="top"
+            style="font-family:'Arial', 'sans-serif'; font-size: 12px; color: #333333;">
+            $body.orderBean.paymentBean.paymentType<br><br>
+            #if ($body.orderBean.paymentBean)
+                Billing address:<br>
+                $body.orderBean.addressBean.name<br>
+                $body.orderBean.paymentBean.addressLine1<br>
+                #if ($body.orderBean.paymentBean.addressLine2)
+                    $body.orderBean.paymentBean.addressLine2<br>
+                #end
+                #if ($body.orderBean.paymentBean.addressLine3)
+                    $body.orderBean.paymentBean.addressLine3<br>
+                #end
+                #if ($body.orderBean.paymentBean.countyCode)
+                    $body.orderBean.paymentBean.countyCode<br>
+                #end
+                #if ($body.orderBean.addressBean.postcode)
+                    $body.orderBean.addressBean.postcode
+                #end
+            #end
+        </td>
+    </tr>
+</table>
+<br><br>
+                    <span style="font-family:'Arial','sans-serif'; font-size: 18px;color:#000065">
+                        Products Ordered
+                    </span>
+
+<table cellspacing="0" cellpadding="5" border="0" width="100%"
+       style="border-top:1px solid #cedff0;border-left:1px solid #cedff0;border-right:1px solid #cedff0;">
+    <tr>
+        <th bgColor="#E2E8E8"
+            style="font-family:'Arial','sans-serif'; font-size: 12px; font-weight: bold; color:#000065;border-right:1px solid #cedff0;border-bottom:1px solid #cedff0;"
+            align="left">
+            Product Name
+        </th>
+        <th bgColor="#E2E8E8"
+            style="border-right:#cedff0 1px solid;border-bottom:1px solid #cedff0;font-family:'Arial','sans-serif'; font-size: 12px;font-weight:bold;color:#000065"
+            align="left">
+            Product Code
+        </th>
+        <th bgColor="#E2E8E8"
+            style="border-right:#cedff0 1px solid;border-bottom:1px solid #cedff0;font-family:'Arial','sans-serif'; font-size: 12px;font-weight:bold;color:#000065"
+            align="left">
+            Quantity
+        </th>
+        <th bgColor="#E2E8E8"
+            style="border-right:#cedff0 1px solid;border-bottom:1px solid #cedff0;font-family:'Arial','sans-serif'; font-size: 12px;font-weight:bold;color:#000065"
+            align="left">
+            Unit price <span style="font-size: 11px">(ex VAT)</span>
+        </th>
+        <th bgColor="#E2E8E8"
+            style="font-family:'Arial','sans-serif';border-bottom:1px solid #cedff0;font-size: 12px; font-weight: bold; color:#000065"
+            align="left">
+            Line total <span style="font-size: 11px">(ex VAT)</span>
+        </th>
+    </tr>
+
+    #foreach( $line in $body.orderBean.orderLineBeanList.orderLineBeans)
+        <tr>
+            <td style="border-right:#cedff0 1px solid; border-bottom:#cedff0 1px solid; font-family:'Arial','sans-serif'; font-size:12px"
+                valign="top">
+                $line.productName
+            </td>
+            <td style="border-right:#cedff0 1px solid; border-bottom:#cedff0 1px solid; font-family:'Arial','sans-serif'; font-size:12px"
+                valign="top">
+                $line.SKU
+            </td>
+            <td style="border-right:#cedff0 1px solid; border-bottom:#cedff0 1px solid; font-family:'Arial','sans-serif'; font-size:12px"
+                valign="top">
+                $line.quantity
+            </td>
+            <td style="border-right:#cedff0 1px solid; border-bottom:#cedff0 1px solid; font-family:'Arial','sans-serif'; font-size:12px"
+                valign="top">
+                $body.NumberFormat.format($line.orderLineValueExVat)
+            </td>
+            <td style="border-bottom:#cedff0 1px solid; font-family:'Arial','sans-serif'; font-size:12px"
+                valign="top">
+                $body.NumberFormat.format($line.orderLineVatValue)
+            </td>
+        </tr>
+    #end
+</table>
+<br>
+<br>
+<table border="0" cellspacing="0" cellpadding="5" width="100%">
+    <tr>
+        <td style="font-size:11px;border-bottom:#cedff0 1px solid;font-family:'Arial','sans-serif';" width="85%"
+            valign="top" align="right">
+            Sub-Total (ex VAT):
+        </td>
+        <td style="font-size:11px;border-bottom:#cedff0 1px solid;font-family:'Arial','sans-serif';" width="15%"
+            valign="top" align="right">
+            $body.NumberFormat.format($body.orderBean.orderValueExVat)
+        </td>
+    </tr>
+
+    <tr>
+        <td style="font-size:11px;border-bottom:#cedff0 1px solid;font-family:'Arial','sans-serif';" width="85%"
+            valign="top" align="right">
+            Delivery Charge (ex VAT):
+        </td>
+        <td style="font-size:11px;border-bottom:#cedff0 1px solid;font-family:'Arial','sans-serif';" width="15%"
+            valign="top" align="right">
+            $body.NumberFormat.format($body.orderBean.deliveryCost)
+        </td>
+    </tr>
+
+    #if ($body.orderBean.net)
+
+    #else
+        <tr>
+            <td style="font-size:11px;border-bottom:#cedff0 1px solid;font-family:'Arial','sans-serif';" width="85%"
+                valign="top" align="right">
+                Total VAT:
+            </td>
+            <td style="font-size:11px;border-bottom:#cedff0 1px solid;font-family:'Arial','sans-serif';" width="15%"
+                valign="top" align="right">
+                $body.NumberFormat.format($body.orderBean.totalVat)
+            </td>
+        </tr>
+    #end
+
+    #if ( $body.orderBean.paymentBean.cardChargeAmount )
+        <tr>
+            <td style="font-size:11px;border-bottom:#cedff0 1px solid;font-family:'Arial','sans-serif';" width="85%"
+                valign="top" align="right">
+                Payment Option Charge:
+            </td>
+            <td style="font-size:11px;border-bottom:#cedff0 1px solid;font-family:'Arial','sans-serif';" width="15%"
+                valign="top" align="right">
+                $body.NumberFormat.format(0.0)
+            </td>
+        </tr>
+    #end
+
+    <tr>
+        <td style="font-size:12px;border-bottom:#cedff0 1px solid;font-family:'Arial','sans-serif';font-weight:bold;"
+            width="85%" valign="top" align="right">
+            Total Price:
+        </td>
+        <td style="font-size:12px;border-bottom:#cedff0 1px solid;font-family:'Arial','sans-serif';font-weight:bold;"
+            width="15%" valign="top" align="right">
+            $body.NumberFormat.format($body.orderBean.orderValueIncVat)
+        </td>
+    </tr>
+
+</table>
+
+<p><span style="font-family:'Arial','sans-serif'; font-size: 18px;color:#000065;">
+    What Happens Next?
+</span><br>
+    <span style="font-family:'Arial','sans-serif'; font-size: 12px; color: #333333; line-height: 1.5em">
+        To track your order, please visit the order history area by logging into your account.<br>If you have any
+    questions or queries regarding your order, please take a look at our help pages, email us at <a
+            style=" color: #bd001d;"
+            href="mailto:cognitivenode@gmail.com">cognitivenode@gmail.com</a> or alternatively call on <span>0845 000 0000</span>.
+    Lines are open Monday to Friday 8am to 7pm and Saturday 9am to 5pm. (excluding Bank Holidays).
+    <br><br>
+    Yours sincerely,
+    <br>Cogntivenode.
+    <br><br>
+    This email is auto generated. Please do not reply to this email.
+</p>
+<br>
+
+<p align="center" style="font-family:'Arial','sans-serif';font-size:11px;color:#666;">Cogntivenode. Registered office:
+    15 Betahouse Southcote Road, Reading, Berkshire, RG30 2AR. Tel:
+    01189571313. Email: <a href="mailto:cognitivenode@gmail.com" style="color:#bd001d;text-decoration:none">cognitivenode@gmail.com</a>
+</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>

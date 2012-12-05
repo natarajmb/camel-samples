@@ -1,0 +1,16 @@
+This sample picks up a Order xml file and converts it into a Java bean. Produced Java bean is fed into the Velocity
+template before pushing the result from Velocity end point through to a targeted email.
+
+Steps1:
+Change the input resource on the route to point to the right directory.
+Copy the ORDERS.xml file from src/main/resources into the input directory.
+Make sure SMTP service on krishna is working correctly.
+
+Step2:
+mvn camel:run
+
+or to debug use following command
+
+mvn clean compile exec:exec -Dexec.executable="java" -Dexec.args="-classpath %classpath -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000 org.apache.camel.spring.Main"
+
+

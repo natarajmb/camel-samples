@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <bean id="xml2BeanProcessor" class="com.cognitivenode.processor.XML2BeanProcessor"/>
+    <bean id="emailEnricher" class="com.cognitivenode.processor.EmailEnricher"/>
+
+    <!-- When spring processes the below piece of code it automatically starts up all the routes
+         defined with in the context. There is a alternative way of doing this by defining
+         the camel bean and invoking it and starting it manually. Read the starter guide to get
+         grips - http://camel.apache.org/getting-started.html
+    -->
+    <camel:camelContext id="camel">
+        <!-- Define a file reader endpoint to read a file-->
+        <camel:endpoint id="fileEndpoint" uri="file:/Users/natarajmb/Temp?recursive=false&amp;fileName=ORDERS.xml"/>
+        <camel:endpoint id="outputEndpoint" uri="file:/Users/natarajmb/Temp?recursive=false&amp;fileName=Test.html"/>
+        <camel:endpoint id="smtpServer" uri="smtp://krishna?contentType=text/html"/>
+
+        <camel:route>
+            <!-- Reference a file endpoint to read the file from-->
+            <camel:from ref="fileEndpoint"/>
+            <camel:process ref="xml2BeanProcessor"/>
+            <camel:to uri="velocity:order-email.vm"/>
+            <camel:to ref="outputEndpoint"/>
+            <camel:process ref="emailEnricher"/>
+            <camel:to ref="smtpServer"/>
+        </camel:route>
+    </camel:camelContext>
+
+</beans>

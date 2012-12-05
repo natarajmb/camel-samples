@@ -8,8 +8,7 @@
     <modules>
         <module>camel-cxf</module>
         <module>camel-file-amq</module>
-        <module>camel-vm-smtp</module>
-        <module>camel-ssh</module>
+        <module>camel-xml-vm-smtp</module>
     </modules>
     <packaging>pom</packaging>
 
