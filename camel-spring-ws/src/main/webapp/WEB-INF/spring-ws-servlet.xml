@@ -1,0 +1,95 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <!-- Log SOAP envelope -->
+    <bean id="loggingInterceptor"
+          class="org.springframework.ws.soap.server.endpoint.interceptor.SoapEnvelopeLoggingInterceptor">
+        <property name="logRequest" value="true"/>
+        <property name="logResponse" value="true"/>
+    </bean>
+
+    <!-- Validate message -->
+    <bean id="validatingInterceptor"
+          class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
+        <property name="schema" value="/WEB-INF/books.xsd"/>
+        <property name="validateRequest" value="true"/>
+        <property name="validateResponse" value="true"/>
+    </bean>
+
+    <bean id="endpointMapping" class="org.apache.camel.component.spring.ws.bean.CamelEndpointMapping">
+        <property name="interceptors">
+            <list>
+                <ref local="loggingInterceptor"/>
+                <ref local="validatingInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Books" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema">
+            <bean id="xsd" class="org.springframework.xml.xsd.SimpleXsdSchema">
+                <property name="xsd" value="/WEB-INF/books.xsd"/>
+            </bean>
+        </property>
+        <property name="portTypeName" value="IBookService"/>
+        <!-- WSDL URL = below_URL/bean_id.wsdl -->
+        <property name="locationUri" value="http://localhost:8080/BookService"/>
+    </bean>
+
+    <bean id="objectFactory" class="com.cognitivenode.jaxb.ObjectFactory"/>
+
+    <bean id="bookService" class="com.cognitivenode.BookServiceImpl">
+        <constructor-arg>
+            <ref bean="objectFactory"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="processMessage" class="com.cognitivenode.SpringWebServiceProcessor">
+        <property name="bookService" ref="bookService"/>
+    </bean>
+
+    <!-- When spring processes the below piece of code it automatically starts up all the routes
+         defined with in the context. There is a alternative way of doing this by defining
+         the camel bean and invoking it and starting it manually. Read the starter guide to get
+         grips - http://camel.apache.org/getting-started.html
+    -->
+    <camel:camelContext id="camel">
+        <camel:dataFormats>
+            <camel:jaxb id="autoMarshaller" prettyPrint="true" contextPath="com.cognitivenode.jaxb"/>
+        </camel:dataFormats>
+        <camel:route id="route1">
+            <camel:from
+                    uri="spring-ws:rootqname:{http://www.cognitivenode.com/books/types}GetAllBooksRequest?endpointMapping=#endpointMapping"/>
+            <camel:setHeader headerName="method">
+                <camel:constant>getAllBooks</camel:constant>
+            </camel:setHeader>
+            <camel:unmarshal ref="autoMarshaller"/>
+            <camel:process ref="processMessage"/>
+            <camel:marshal ref="autoMarshaller"/>
+        </camel:route>
+        <camel:route id="route2">
+            <camel:from
+                    uri="spring-ws:rootqname:{http://www.cognitivenode.com/books/types}GetBookByNameRequest?endpointMapping=#endpointMapping"/>
+            <camel:setHeader headerName="method">
+                <camel:constant>getBookByName</camel:constant>
+            </camel:setHeader>
+            <camel:unmarshal ref="autoMarshaller"/>
+            <camel:process ref="processMessage"/>
+            <camel:marshal ref="autoMarshaller"/>
+        </camel:route>
+        <camel:route id="route3">
+            <camel:from
+                    uri="spring-ws:rootqname:{http://www.cognitivenode.com/books/types}GetBookByAuthorRequest?endpointMapping=#endpointMapping"/>
+            <camel:setHeader headerName="method">
+                <camel:constant>getBookByAuthor</camel:constant>
+            </camel:setHeader>
+            <camel:unmarshal ref="autoMarshaller"/>
+            <camel:process ref="processMessage"/>
+            <camel:marshal ref="autoMarshaller"/>
+        </camel:route>
+    </camel:camelContext>
+</beans>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+        targetNamespace="http://www.cognitivenode.com/books/types"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://www.cognitivenode.com/books/types"
+        elementFormDefault="qualified">
+    <xsd:complexType name="Author">
+        <xsd:sequence>
+            <xsd:element name="FirstName">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="255"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="LastName">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="255"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Book">
+        <xsd:all>
+            <xsd:element name="Name">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="255"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="Genre">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="255"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="Cover">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="255"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="PublishedDate" type="xsd:date"/>
+        </xsd:all>
+    </xsd:complexType>
+
+    <!-- Grouping -->
+    <xsd:complexType name="BookRecord">
+        <xsd:sequence>
+            <xsd:element name="Book" type="tns:Book"/>
+            <xsd:element name="Author" type="tns:Author" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ArrayOfBookRecord">
+        <xsd:sequence>
+            <xsd:element name="BookRecord" type="tns:BookRecord" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ArrayOfBooks">
+        <xsd:sequence>
+            <xsd:element name="Books" type="tns:Book" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ArrayOfAuthors">
+        <xsd:sequence>
+            <xsd:element name="Authors" type="tns:Author" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- End of grouping-->
+
+    <!-- Method requests name them identical to operation name -->
+    <xsd:element name="GetAllBooksRequest">
+        <!-- Define method parameters -->
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ignoreMe">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:maxLength value="255"/>
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+        <!-- End of method parameters -->
+    </xsd:element>
+    <xsd:element name="GetBookByNameRequest">
+        <!-- Define method parameters -->
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="bookName">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:maxLength value="255"/>
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+        <!-- End of method parameters -->
+    </xsd:element>
+    <xsd:element name="GetBookByAuthorRequest">
+        <!-- Define method parameters -->
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="authorName">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:maxLength value="255"/>
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+        <!-- End of method parameters -->
+    </xsd:element>
+    <!-- End of method requests -->
+
+    <!-- Method response -->
+    <xsd:element name="GetAllBooksResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="books" type="tns:ArrayOfBookRecord"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="GetBookByNameResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="book" type="tns:BookRecord"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="GetBookByAuthorResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="book" type="tns:BookRecord"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- End of method response -->
+</xsd:schema>

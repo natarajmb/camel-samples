@@ -9,6 +9,7 @@
         <module>camel-cxf</module>
         <module>camel-file-amq</module>
         <module>camel-xml-vm-smtp</module>
+        <module>camel-spring-ws</module>
     </modules>
     <packaging>pom</packaging>
 
