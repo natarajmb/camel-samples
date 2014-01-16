@@ -1,0 +1,10 @@
+This is a sample camel-restlet component project. It uses a Restlet API (http://www.restlet.org/) to serve.
+
+Restlet API allows you to run ReST service without a container and hence the reason for choosing Restlet.
+Note: Restlet is not jax-rs complaint yet, they have road map to achieve this using a extension.
+
+Note: I couldn't find ways to automatically wire payload to the Restlet engine for it invoke right methods. Hence
+this sample does a manual mapping of payload to methods.
+
+Steps to run the project
+

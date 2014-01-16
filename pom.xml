@@ -1,3 +1,11 @@
+<!--
+  ~ Copyright (c) Cognitivenode 2013. All Rights Reserved.
+  ~
+  ~ No part of this source code or any of its contents may be reproduced, copied,
+  ~ modified or adapted, without the prior written consent of the author,
+  ~ unless otherwise indicated for stand-alone materials.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -10,6 +18,8 @@
         <module>camel-file-amq</module>
         <module>camel-xml-vm-smtp</module>
         <module>camel-spring-ws</module>
+        <module>restlet-annotations</module>
+        <module>camel-restlet</module>
     </modules>
     <packaging>pom</packaging>
 

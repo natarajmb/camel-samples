@@ -1,0 +1,16 @@
+This project is an demonstration of Java Annotations API. The project defines a few annotations that are used
+in camel-restlet application. Annotations generally are used by frameworks to generate source code, but this sample
+project is built for source code validation i.e. to check annotations defined and flag them as errors if inappropriate.
+
+Java 6 and above as Annotations Processor API that defines a set of rules on how annotations are processed. A standard
+way is to put the annotations processor class in javax.annotation.processing.Processor
+
+Finer points on Java Annotations API
+- defined using @interface signature
+- no modifiers required for defined methods
+- can have a default values
+- methods defined should not have parameters
+- return values are always primitives including String and Arrays of primitives
+- Annotation processor needs to implement javax.annotations.processing.Processor interface or java.annotations.processing.AbstractProcessor abstract class
+- Java 6 and above compilers will look at META-INF/services/javax.annotation.processing.Processor file to look for annotation processors
+
