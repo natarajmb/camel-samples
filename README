@@ -1,5 +1,5 @@
 This project is of Apache Camel samples. These are very basic examples that could be found anywhere on the internet. I'm
-adding it here for my own understanding gained during Sit-up payment integration work.
+adding it here for my own understanding gained during client (Sit-up) payment integration work.
 
 The project is structured into main maven module and several sub-module, each sub-module showing an example of making
 use of on end-point.
